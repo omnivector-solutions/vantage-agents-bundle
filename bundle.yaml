@@ -1,0 +1,16 @@
+name: vantage-agents
+description: Bundle for deploying all agents required by the Vantage application.
+source: https://github.com/omnivector-solutions/vantage-agent-bundle/
+
+series: jammy
+
+applications:
+  vantage-agent:
+    charm: cs:~omnivector-solutions/vantage-agent
+    num_units: 1
+  jobbergate-agent:
+    charm: cs:~omnivector-solutions/jobbergate-agent
+    num_units: 1
+  license-manager-agent:
+    charm: cs:~omnivector-solutions/license-manager-agent
+    num_units: 0
