@@ -48,7 +48,7 @@ jobs:
 
       - name: Install Charmcraft
         run: |
-            sudo snap install charmcraft --channel 3.x/stable
+            sudo snap install charmcraft --channel 3.x/stable --classic
 
       - name: Upload bundle to charmhub
         uses: canonical/charming-actions/upload-bundle@1.0.0
