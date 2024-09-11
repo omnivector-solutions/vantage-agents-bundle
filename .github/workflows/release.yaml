@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Release to latest/edge
+name: Release to Charmhub
 
 on:
   workflow_dispatch:
@@ -46,9 +46,9 @@ jobs:
           sudo lxd waitready --timeout=30
           sudo lxd init --auto
 
-      - name: Install dependencies
+      - name: Install Charmcraft
         run: |
-            snap install charmcraft --channel 3.x/stable
+            sudo snap install charmcraft --channel 3.x/stable
 
       - name: Upload bundle to charmhub
         uses: canonical/charming-actions/upload-bundle@1.0.0
