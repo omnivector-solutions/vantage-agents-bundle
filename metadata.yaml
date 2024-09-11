@@ -1,0 +1,17 @@
+name: vantage-agents
+display-name: Vantage Agents
+summary: Bundle for deploying all agents required by the Vantage application.
+description: |
+  The Vantage Agents bundle deploys all agents required by the Vantage application.
+
+maintainer: Omnivector Corp <info@omnivector.solutions>
+
+tags:
+- vantage
+- hpc
+- jobbergate
+- license-manager
+
+series:
+- focal
+- jammy
