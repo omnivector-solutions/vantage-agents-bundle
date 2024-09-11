@@ -36,6 +36,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      # [reference](https://discourse.charmhub.io/t/building-your-charms-with-github-actions/4992)
+      - name: Configure LXD
+        run: |
+          sudo snap install lxd --channel 5.21/stable
+          sudo groupadd --force --system lxd
+          sudo usermod --append --groups lxd $USER
+          sudo snap start lxd
+          sudo lxd waitready --timeout=30
+          sudo lxd init --auto
+
       - name: Install dependencies
         run: |
             snap install charmcraft --channel 3.x/stable
