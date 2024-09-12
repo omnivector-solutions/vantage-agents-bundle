@@ -22,7 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install Charmcraft and Jq
+      - name: Install Charmcraft
         run: |
           sudo snap install charmcraft --channel 3.x/stable --classic
 
@@ -40,4 +40,4 @@ jobs:
 
       - name: Release bundle
         run: |
-          charmcraft release vantage-agents $REVISION --channel ${{ github.event.inputs.channel }}
+          charmcraft release vantage-agents -r $REVISION -c ${{ github.event.inputs.channel }}
