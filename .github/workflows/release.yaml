@@ -1,26 +1,12 @@
-# Copyright 2024 Canonical Ltd.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 name: Release to Charmhub
 
 on:
   workflow_dispatch:
     inputs:
       channel:
-        description: 'The channel where the charm is going to be released to'
+        description: "The channel where the charm is going to be released to"
         required: true
-        default: 'stable'
+        default: "stable"
         type: choice
         options:
           - stable
@@ -36,23 +22,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # [reference](https://discourse.charmhub.io/t/building-your-charms-with-github-actions/4992)
-      - name: Configure LXD
+      - name: Install Charmcraft and Jq
         run: |
-          sudo snap install lxd --channel 5.21/stable
-          sudo groupadd --force --system lxd
-          sudo usermod --append --groups lxd $USER
-          sudo snap start lxd
-          sudo lxd waitready --timeout=30
-          sudo lxd init --auto
+          sudo snap install charmcraft --channel 3.x/stable --classic
 
-      - name: Install Charmcraft
+      - name: Build bundle
         run: |
-            sudo snap install charmcraft --channel 3.x/stable --classic
+          charmcraft pack
 
-      - name: Upload bundle to charmhub
-        uses: canonical/charming-actions/upload-bundle@1.0.0
-        with:
-          credentials: "${{ secrets.CHARMCRAFT_AUTH }}"
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
-          channel: "${{ github.event.inputs.channel }}"
+      - name: Create bundle revision
+        run: |
+          charmcraft upload vantage-agents.zip
+          REVISION=$(charmcraft revisions vantage-agent | head -n 2 | awk '{print $1}' | tail -n 1)
+          echo "REVISION=$REVISION" >> $GITHUB_ENV
+        env:
+          CHARMCRAFT_AUTH: ${{ secrets.CHARMCRAFT_AUTH }}
+
+      - name: Release bundle
+        run: |
+          charmcraft release vantage-agents $REVISION --channel ${{ github.event.inputs.channel }}
