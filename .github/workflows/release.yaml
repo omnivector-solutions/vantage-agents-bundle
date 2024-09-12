@@ -41,3 +41,5 @@ jobs:
       - name: Release bundle
         run: |
           charmcraft release vantage-agents -r $REVISION -c ${{ github.event.inputs.channel }}
+        env:
+          CHARMCRAFT_AUTH: ${{ secrets.CHARMCRAFT_AUTH }}
