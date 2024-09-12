@@ -30,16 +30,8 @@ jobs:
         run: |
           charmcraft pack
 
-      - name: Create bundle revision
+      - name: Create bundle revision and release to Charmhub
         run: |
-          charmcraft upload vantage-agents.zip
-          REVISION=$(charmcraft revisions vantage-agent | head -n 2 | awk '{print $1}' | tail -n 1)
-          echo "REVISION=$REVISION" >> $GITHUB_ENV
-        env:
-          CHARMCRAFT_AUTH: ${{ secrets.CHARMCRAFT_AUTH }}
-
-      - name: Release bundle
-        run: |
-          charmcraft release vantage-agents -r $REVISION -c ${{ github.event.inputs.channel }}
+          charmcraft upload --name=vantage-agents --release=${{ github.event.inputs.channel }} vantage-agents.zip
         env:
           CHARMCRAFT_AUTH: ${{ secrets.CHARMCRAFT_AUTH }}
