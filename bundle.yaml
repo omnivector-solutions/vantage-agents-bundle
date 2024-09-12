@@ -1,6 +1,6 @@
 name: vantage-agents
 description: Bundle for deploying all agents required by the Vantage application.
-source: https://github.com/omnivector-solutions/vantage-agent-bundle/
+source: https://github.com/omnivector-solutions/vantage-agents-bundle
 
 series: jammy
 
