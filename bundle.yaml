@@ -8,9 +8,12 @@ applications:
   vantage-agent:
     charm: cs:~omnivector-solutions/vantage-agent
     num_units: 1
+    series: jammy
   jobbergate-agent:
     charm: cs:~omnivector-solutions/jobbergate-agent
     num_units: 1
+    series: jammy
   license-manager-agent:
     charm: cs:~omnivector-solutions/license-manager-agent
     num_units: 0
+    series: jammy
